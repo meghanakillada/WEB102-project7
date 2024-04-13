@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React,{ useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './EditPost.css'
 import { supabase } from '../client'
@@ -7,6 +7,30 @@ const EditPost = ({data}) => {
 
     const {id} = useParams();
     const [post, setPost] = useState({id: null, name: "", speed: "", color: ""});
+
+    useEffect(() => {
+        const fetchPost = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('Posts')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+    
+                if (error) {
+                    throw error;
+                }
+    
+                if (data) {
+                    setPost(data);
+                }
+            } catch (error) {
+                console.error('Error fetching post:', error.message);
+            }
+        };
+        fetchPost();
+    }, []);
+
 
     const handleChange = (event) => {
         const {name, value} = event.target;
@@ -27,10 +51,10 @@ const EditPost = ({data}) => {
         .update({ name: post.name, speed: post.speed, color: post.color})
         .eq('id', id);
     
-        window.location = "/";
+        window.location = "/gallery";
     }
 
-    // UPDATE post
+    // DELETE post
     const deletePost = async (event) => {
         event.preventDefault();
     
@@ -39,11 +63,16 @@ const EditPost = ({data}) => {
         .delete()
         .eq('id', id); 
     
-        window.location = "http://localhost:3000/";
+        window.location = "/gallery";
     }
 
     return (
         <div>
+            <div className='info'>
+                <h2>{post.name}</h2>
+                <h3 className="speed">{"Speed: " + post.speed}</h3>
+                <h3 className="color">{"Color: " + post.color}</h3>
+            </div>
             <form>
                 <label for="name">Name</label> <br />
                 <input type="text" id="name" name="name" value={post.name} onChange={handleChange} /><br />

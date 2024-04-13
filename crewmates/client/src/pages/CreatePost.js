@@ -23,7 +23,7 @@ const CreatePost = () => {
           .insert({name: post.name, speed: post.speed, color: post.color})
           .select();
       
-        window.location = "/";
+        window.location = "/gallery";
     }
 
     return (

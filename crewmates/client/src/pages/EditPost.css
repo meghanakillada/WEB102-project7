@@ -56,3 +56,12 @@ input[type=submit]:hover {
     margin-top: 20px;
     margin-bottom: 50px;
 }
+
+.info {
+    align-items: center;
+    text-align: center;
+}
+ h2 {
+    margin-top: 3px;
+    margin-bottom: 3px;
+ }
