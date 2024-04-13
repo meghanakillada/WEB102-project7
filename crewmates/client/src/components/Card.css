@@ -10,26 +10,22 @@
     text-align: center;
 }
 
-.title {
+.name {
     color:white;
     padding-left:30px;
     font-size: 24px;
 }
 
-.author {
+.speed {
     color:white;
     margin-bottom: 20px;
     font-size: 20px;
 }
 
-.description {
-    color:white;  
-    text-align: justify;
-    text-justify: inter-word;
-    padding-left: 30px;
-    padding-right: 30px;
+.color {
+    color:white;
     margin-bottom: 20px;
-    font-size: 15px;
+    font-size: 20px;
 }
 
 .betButton {

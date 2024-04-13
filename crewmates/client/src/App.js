@@ -4,6 +4,7 @@ import { useRoutes } from 'react-router-dom'
 import ReadPosts from './pages/ReadPosts'
 import CreatePost from './pages/CreatePost'
 import EditPost from './pages/EditPost'
+import Home from './pages/Home'
 import { Link } from 'react-router-dom'
 
 
@@ -35,6 +36,10 @@ const App = () => {
   let element = useRoutes([
     {
       path: "/",
+      element:<Home />
+    },
+    {
+      path: "/gallery",
       element:<ReadPosts data={posts}/>
     },
     {
@@ -52,9 +57,10 @@ const App = () => {
     <div className="App">
 
       <div className="header">
-        <h1>👍 Bet 1.0</h1>
-        <Link to="/"><button className="headerBtn"> Explore Challenges 🔍  </button></Link>
-        <Link to="/new"><button className="headerBtn"> Submit Challenge 🏆 </button></Link>
+        <h1>Crewmate Creator</h1>
+        <Link to="/"><button className="headerBtn"> Home  </button></Link>
+        <Link to="/gallery"><button className="headerBtn"> Crewmate Gallery  </button></Link>
+        <Link to="/new"><button className="headerBtn"> Create Crewmate </button></Link>
       </div>
         {element}
     </div>

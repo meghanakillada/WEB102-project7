@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './CreatePost.css'
+import { supabase } from '../client'
 
 const CreatePost = () => {
 
-    const [post, setPost] = useState({title: "", author: "", description: ""})
+    const [post, setPost] = useState({name: "", speed: "", color: ""})
 
     const handleChange = (event) => {
         const {name, value} = event.target;
@@ -12,25 +13,35 @@ const CreatePost = () => {
                 ...prev,
                 [name]:value,
             }
-        })
+        }) 
+    }
+    const createPost = async (event) => {
+        event.preventDefault();
+      
+        await supabase
+          .from('Posts')
+          .insert({name: post.name, speed: post.speed, color: post.color})
+          .select();
+      
+        window.location = "/";
     }
 
     return (
         <div>
             <form>
-                <label for="title">Title</label> <br />
-                <input type="text" id="title" name="title" onChange={handleChange} /><br />
+                <label for="name">Name</label> <br />
+                <input type="text" id="name" name="name" onChange={handleChange} /><br />
                 <br/>
 
-                <label for="author">Author</label><br />
-                <input type="text" id="author" name="author" onChange={handleChange} /><br />
+                <label for="speed">Speed</label><br />
+                <input type="number" id="speed" name="speed" onChange={handleChange} /><br />
                 <br/>
 
-                <label for="description">Description</label><br />
-                <textarea rows="5" cols="50" id="description" onChange={handleChange}>
-                </textarea>
+                <label for="color">Color</label><br />
+                <input type="text" id="color" name="color" onChange={handleChange} /><br />
                 <br/>
-                <input type="submit" value="Submit" />
+
+                <input type="submit" value="Submit" onClick={createPost} />
             </form>
         </div>
     )

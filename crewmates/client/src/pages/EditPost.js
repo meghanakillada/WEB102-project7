@@ -1,11 +1,12 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './EditPost.css'
+import { supabase } from '../client'
 
 const EditPost = ({data}) => {
 
     const {id} = useParams();
-    const [post, setPost] = useState({id: null, title: "", author: "", description: ""});
+    const [post, setPost] = useState({id: null, name: "", speed: "", color: ""});
 
     const handleChange = (event) => {
         const {name, value} = event.target;
@@ -17,23 +18,47 @@ const EditPost = ({data}) => {
         })
     }
 
+    // UPDATE post
+    const updatePost = async (event) => {
+        event.preventDefault();
+    
+        await supabase
+        .from('Posts')
+        .update({ name: post.name, speed: post.speed, color: post.color})
+        .eq('id', id);
+    
+        window.location = "/";
+    }
+
+    // UPDATE post
+    const deletePost = async (event) => {
+        event.preventDefault();
+    
+        await supabase
+        .from('Posts')
+        .delete()
+        .eq('id', id); 
+    
+        window.location = "http://localhost:3000/";
+    }
+
     return (
         <div>
             <form>
-                <label for="title">Title</label> <br />
-                <input type="text" id="title" name="title" value={post.title} onChange={handleChange} /><br />
+                <label for="name">Name</label> <br />
+                <input type="text" id="name" name="name" value={post.name} onChange={handleChange} /><br />
                 <br/>
 
-                <label for="author">Author</label><br />
-                <input type="text" id="author" name="author" value={post.author} onChange={handleChange} /><br />
+                <label for="speed">Speed</label><br />
+                <input type="number" id="speed" name="speed" value={post.speed} onChange={handleChange} /><br />
                 <br/>
 
-                <label for="description">Description</label><br />
-                <textarea rows="5" cols="50" id="description" value={post.description} onChange={handleChange} >
-                </textarea>
+                <label for="color">Color</label><br />
+                <input type="text" id="color" name="color" value={post.color} onChange={handleChange} /><br />
                 <br/>
-                <input type="submit" value="Submit" />
-                <button className="deleteButton">Delete</button>
+
+                <input type="submit" value="Submit" onClick={updatePost} />
+                <button className="deleteButton" onClick={deletePost}>Delete</button>
             </form>
         </div>
     )
